@@ -1,4 +1,4 @@
-namespace Alburan
+namespace Alburan1
 {
     internal static class Program
     {

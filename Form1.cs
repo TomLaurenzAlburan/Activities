@@ -1,111 +1,65 @@
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
-namespace Alburan
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace Alburan1
 {
     public partial class Form1 : Form
     {
+        // Lists to store student data
+        private List<string> StudentIds = new List<string>();
+        private List<string> FirstNames = new List<string>();
+        private List<string> LastNames = new List<string>();
+
         public Form1()
         {
             InitializeComponent();
-            Year();
         }
-        public void Year()
+
+        
+        private void SubmitButton_Click(object sender, EventArgs e)
         {
-            for (int Y = 1990; Y < +2024; Y++)
+            string studentID = StudentId.Text;
+            string firstName = FirstName.Text;
+            string lastName = LastName.Text;
+
+             
+            if (string.IsNullOrEmpty(studentID) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
             {
-                cbYear.Items.Add(Y);
-            }
-        }
-        private void LastN_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void FirstN_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void MiddleN_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void rbMale_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void rbFemale_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbDay_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbMonth_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbYear_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbProgram_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnBrowse_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image Files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                pictureBox1.ImageLocation = openFileDialog.FileName;
-            }
-        }
-
-        private void btnRegister_Click(object sender, EventArgs e)
-        {
-            string LastName = LastN.Text;
-            string FirstName = FirstN.Text;
-            string MiddleName = MiddleN.Text;
-            string gender = rbMale.Checked ? "Male" : "Female";
-            string dateOfBirth = $"{cbDay.Text}/{cbMonth.Text}/{cbYear.Text}";
-            string program = cbProgram.Text;
-
-            if (string.IsNullOrEmpty(LastName) || string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(dateOfBirth) || string.IsNullOrEmpty(program))
-            {
-                MessageBox.Show("Please fill in all required fields", "Error");
+                MessageBox.Show("Please fill in all the fields marked with *");
                 return;
             }
 
-            DisplayStudentInfo(LastName, FirstName, MiddleName, gender, dateOfBirth, program);
+            
+            StudentIds.Add(studentID);
+            FirstNames.Add(firstName);
+            LastNames.Add(lastName);
 
+            
+            StudentId.Clear();
+            FirstName.Clear();
+            LastName.Clear();
+
+            
+            UpdateListBoxes();
         }
-        private void DisplayStudentInfo(string lastName, string firstName)
+
+        
+        private void UpdateListBoxes()
         {
-            MessageBox.Show($"Student Name: {lastName}, {firstName}", "Student Information");
-        }
-        private void DisplayStudentInfo(string lastName, string firstName, string middleName)
-        {
-            MessageBox.Show($"Student Name: {lastName}, {firstName} {middleName}", "Student Information");
-        }
+            // Clear existing items
+            ListStudentId.Items.Clear();
+            ListFirstName.Items.Clear();
+            ListLastName.Items.Clear();
 
-
-        private void DisplayStudentInfo(string lastName, string firstName, string gender, string dateOfBirth, string program, string program1)
-        {
-            MessageBox.Show($"Student Name: {lastName}, {firstName}\n" +
-                            $"Gender: {gender}\n" +
-                            $"Date of Birth: {dateOfBirth}\n" +
-                            $"Program: {program}", "Student Information");
+            
+            for (int i = 0; i < StudentIds.Count; i++)
+            {
+                ListStudentId.Items.Add(StudentIds[i]);
+                ListFirstName.Items.Add(FirstNames[i]);
+                ListLastName.Items.Add(LastNames[i]);
+            }
         }
 
-       
     }
 }
